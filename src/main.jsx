@@ -6,7 +6,7 @@ import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
 
-  <BrowserRouter basename="/repo-adi">
+  <BrowserRouter basename="/LootDrop">
     <App />
   </BrowserRouter>
 )
