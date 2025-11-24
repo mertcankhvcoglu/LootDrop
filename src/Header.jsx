@@ -1,64 +1,97 @@
 import React, { useState } from 'react'
 import './css/Header.css'
-import lootdropLogo from './assets/images/lootdrop-logo2.png'
+import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { IoMdHeart } from "react-icons/io";
 import { MdPerson } from "react-icons/md";
+import { AiOutlineSearch } from "react-icons/ai";
 
 
 const Header = () => {
 
     //Products dropdown menu open-close - Ürünler aşağıkayar menü aç-kapa değişkeni
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);  //mobile dropdown state
 
-    return (<header className="main-header">
-        {/* SOL KISIM: LOGO */}
-        <div className="logo-area">
-            <img className='header-logo' src={lootdropLogo} alt='LootDrop'></img>
-            <span className='logo-text'>LootDrop</span>
-        </div>
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!mobileMenuOpen);
+    }
 
-        {/* ORTA KISIM: NAVİGASYON */}
-        <nav className="nav-links">
+    return (
+        <header className="main-header">
 
-            {/* Dropdown Menü Alanı */}
-            <div
-                className="nav-item dropdown-container"
-                onMouseEnter={() => setIsMenuOpen(true)}
-                onMouseLeave={() => setIsMenuOpen(false)}
-            >
-                <a href="#" className="nav-link">Ürünler ▾</a>
 
-                {isMenuOpen && (
-                    <div className="dropdown-menu">
-                        <div className="dropdown-item">👾 Figures</div>
-                        <div className="dropdown-item">⌨️ Keycaps</div>
-                        <div className="dropdown-item">💡 Lighting</div>
-                        <div className="dropdown-item">🎧 Audio</div>
-                        <div className="dropdown-item">👕 Apparel</div>
-                        <div className="dropdown-item">🎒 Accessories</div>
-                    </div>
-                )}
+            {/* LOGO */}
+            <div className="logo-area">
+                <span className='logo-text'>LootDrop</span>
             </div>
 
-            <a href="#" className="nav-link">İndirim</a>
-            <a href="#" className="nav-link">Yakında</a>
-        </nav>
+            {/* LEFT PART - NAVIGATION */}
+            <nav className="nav-links desktop-nav">
 
-        {/* SAĞ KISIM: ARAMA ve İKONLAR */}
-        <div className="header-actions">
-            <div className="search-box">
-                <span className="search-icon">🔍</span>
-                <input type="text" placeholder="Ara..." />
+                {/* Desktop Dropdown Menu (Hidden Mobile) */}
+                <div
+                    className="nav-item dropdown-container"
+                    onMouseEnter={() => setIsMenuOpen(true)}
+                    onMouseLeave={() => setIsMenuOpen(false)}
+                >
+                    <a href="#" className="nav-link">Products ▾</a>
+
+                    {isMenuOpen && (
+                        <div className="dropdown-menu">
+                            <div className="dropdown-item">Figures</div>
+                            <div className="dropdown-item">Keycaps</div>
+                            <div className="dropdown-item">Lighting</div>
+                            <div className="dropdown-item">Audio</div>
+                            <div className="dropdown-item">Apparel</div>
+                            <div className="dropdown-item">Accessories</div>
+                        </div>
+                    )}
+                </div>
+
+                <a href="#" className="nav-link">-%- Black Market -%-</a>
+                <a href="#" className="nav-link">Soon</a>
+            </nav>
+
+            {/* RIGHT PART : SEARCH AND ICONS */}
+            <div className="header-actions">
+                <div className="search-box desktop-search">
+                    <span className="search-icon"><AiOutlineSearch /></span>
+                    <input type="text" placeholder="Search..." />
+                </div>
+
+                <div className="icon-group">
+                    <button className="icon-btn"><MdOutlineShoppingCart /></button>
+                    <button className="icon-btn"><IoMdHeart /></button>
+                    <button className="icon-btn desktop-only"><MdPerson /></button>
+                    {/* YENİ: HAMBURGER BUTONU (Sadece Mobilde Görünecek) */}
+                    <button className="icon-btn mobile-menu-btn" onClick={toggleMobileMenu}>
+                        <HiOutlineMenuAlt3 />
+                    </button>
+                </div>
             </div>
 
-            <div className="icon-group">
-                <button className="icon-btn"><MdOutlineShoppingCart /></button>
-                <button className="icon-btn"><IoMdHeart /></button>
-                <button className="icon-btn"><MdPerson /></button>
+            {/* MOBILE MENU (OVERLAY) */}
+            {/* control w css  */}
+            <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'active' : ''}`}>
+
+                <div className="mobile-menu-header">
+                    <span className='logo-text'>Menu</span>
+                    <button className="icon-btn close-btn" onClick={toggleMobileMenu}>
+                        <HiX />
+                    </button>
+                </div>
+
+                <div className="mobile-links">
+                    <a href="#" className="mobile-link">Figures</a>
+                    <a href="#" className="mobile-link">Keyboard & Keycap</a>
+                    <a href="#" className="mobile-link">Lightning</a>
+                    <a href="#" className="mobile-link highlight">Black Market %</a>
+                    <hr className="mobile-divider" />
+                    <a href="#" className="mobile-link">Profile</a>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
 
     );

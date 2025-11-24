@@ -32,3 +32,21 @@ body {
     min-height: 100vh;
     /*Make page height min as screen height*/
 }
+
+.btn-primary {
+    background-color: var(--neon-yellow);
+    color: black;
+    cursor: pointer;
+    padding: 15px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+    border: none;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 10px 20px rgba(253, 254, 0, 0.2);
+}
