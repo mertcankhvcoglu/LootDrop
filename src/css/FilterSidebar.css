@@ -1,0 +1,79 @@
+.filter-sidebar {
+    width: 280px;
+    /*fixed width*/
+    background-color: var(--card-bg);
+    border: 1px solid var(--light-blue);
+    padding: 25px;
+
+    height: fit-content;
+    /*as long as content*/
+    flex-shrink: 0;
+    /*not shrink if page shrinks*/
+}
+
+.filter-header h3 {
+    color: var(--white-main);
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin: 5px 0px;
+}
+
+.filter-header p {
+    font-family: "Tektur", sans-serif;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--light-blue);
+    padding-bottom: 10px;
+}
+
+.filter-group {
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--light-blue);
+    padding-bottom: 20px;
+}
+
+.filter-title {
+    display: flex;
+    justify-content: space-between;
+    color: var(--white-main);
+    cursor: pointer;
+}
+
+.slider {
+    width: 100%;
+    accent-color: var(--neon-yellow);
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkbox-item {
+    color: var();
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+}
+
+.checkbox-item input {
+    accent-color: var(--neon-blue);
+}
+
+.apply-btn {
+    width: 100%;
+    background-color: var(--neon-yellow);
+    color: var(--card-bg);
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    padding: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.apply-btn :hover {}

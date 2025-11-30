@@ -1,0 +1,83 @@
+.product-card {
+    background-color: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--light-blue);
+    overflow: hidden;
+    position: relative;
+}
+
+.product-card:hover {
+    border-color: var(--neon-yellow);
+    box-shadow: 0 5px 35px rgba(253, 254, 0, 0.1);
+}
+
+.card-image-container {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+    opacity: 0.9;
+}
+
+.product-card:hover .card-image {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.card-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.card-category {
+    font-size: 0.8rem;
+    display: none;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-main);
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.card-price {
+    font-family: "Tektur", sans-serif;
+    font-weight: 400;
+    color: var(--neon-yellow);
+}
+
+.add-btn {
+    background-color: var(--neon-yellow);
+    border: 0;
+    color: black;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: 0.2s;
+}
+
+.add-btn:hover {
+    background-color: var(--text-main);
+}

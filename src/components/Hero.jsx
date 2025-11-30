@@ -1,6 +1,6 @@
 import React from 'react'
-import cp77 from './assets/images/Cyberpunk-2077-Art-by-J-Hill.jpg'
-import './css/Hero.css'
+import cp77 from '../assets/images/Cyberpunk-2077-Art-by-J-Hill.jpg'
+import '../css/Hero.css'
 
 const Hero = () => {
     return (

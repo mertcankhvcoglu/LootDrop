@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import './css/Header.css'
+import '../css/Header.css'
 import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { IoMdHeart } from "react-icons/io";
 import { MdPerson } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";
+import { Link } from 'react-router-dom';
 
 
 const Header = () => {
@@ -23,7 +24,9 @@ const Header = () => {
 
             {/* LOGO */}
             <div className="logo-area">
-                <span className='logo-text'>LootDrop</span>
+                <Link to="/LootDrop" style={{ textDecoration: 'none' }}>
+                    <span className='logo-text'>LootDrop</span>
+                </Link>
             </div>
 
             {/* LEFT PART - NAVIGATION */}
@@ -39,11 +42,15 @@ const Header = () => {
 
                     {isMenuOpen && (
                         <div className="dropdown-menu">
+                            <Link
+                                to="/LootDrop/products"
+                                style={{ textDecoration: 'none', display: 'block', color: 'inherit' }}
+                                className="dropdown-item">
+                                All Categories
+                            </Link>
                             <div className="dropdown-item">Figures</div>
                             <div className="dropdown-item">Keycaps</div>
                             <div className="dropdown-item">Lighting</div>
-                            <div className="dropdown-item">Audio</div>
-                            <div className="dropdown-item">Apparel</div>
                             <div className="dropdown-item">Accessories</div>
                         </div>
                     )}
@@ -86,6 +93,8 @@ const Header = () => {
                     <a href="#" className="mobile-link">Figures</a>
                     <a href="#" className="mobile-link">Keyboard & Keycap</a>
                     <a href="#" className="mobile-link">Lightning</a>
+                    <a href="#" className="mobile-link">Accessories</a>
+
                     <a href="#" className="mobile-link highlight">Black Market %</a>
                     <hr className="mobile-divider" />
                     <a href="#" className="mobile-link">Profile</a>
