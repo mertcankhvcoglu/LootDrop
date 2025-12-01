@@ -5,7 +5,7 @@
 
     height: 55px;
     padding: 0 40px;
-    margin: 20px 16%;
+    margin: 20px 0%;
     box-sizing: border-box;
     border-bottom: 1px solid var(--light-blue);
 
@@ -103,7 +103,6 @@
     align-items: center;
     background-color: var(--card-bg);
     padding: 8px 15px;
-    border-radius: 8px;
     border: 1px solid var(--light-blue);
 }
 
@@ -125,7 +124,7 @@
 
 .icon-group {
     display: flex;
-    gap: 7px;
+    gap: 10px;
 }
 
 .icon-btn {
@@ -134,7 +133,6 @@
     width: 40px;
     height: 38px;
     border: 1px solid var(--light-blue);
-    border-radius: 8px;
     cursor: pointer;
     display: flex;
     align-items: center;

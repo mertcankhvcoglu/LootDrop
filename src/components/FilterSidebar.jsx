@@ -19,10 +19,6 @@ const FilterSidebar = () => {
                 {/* Slider */}
                 <div className='slider'>
                     <input type='range' min="0" max="2500" className='slider' />
-                    <div className='price-values'>
-                        <span>$50</span>
-                        <span>$850</span>
-                    </div>
                 </div>
 
                 <div className='checkbox-group'>

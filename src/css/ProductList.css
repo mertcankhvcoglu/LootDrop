@@ -1,5 +1,10 @@
-.product-list {
+.product-list-container {
+    padding: 0px 15%;
+}
+
+.product-list-container.shop-mode {
     padding: 50px 0;
+    min-height: auto;
 }
 
 .list-header {
@@ -8,6 +13,54 @@
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
+}
+
+/* --- PAGINATION STYLES --- */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 50px;
+    padding: 20px;
+    border-top: 1px solid var(--light-blue);
+}
+
+.page-btn {
+    background: transparent;
+    border: 1px solid var(--light-blue);
+    color: var(--neon-blue);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.page-btn.nav-btn {
+    width: auto;
+    padding: 0 15px;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: var(--neon-yellow);
+    color: var(--neon-yellow);
+}
+
+.page-btn.active {
+    background-color: var(--neon-yellow);
+    color: black;
+    border-color: var(--neon-yellow);
+    font-weight: 700;
+}
+
+.page-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
