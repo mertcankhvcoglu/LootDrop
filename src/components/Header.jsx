@@ -90,6 +90,7 @@ const Header = () => {
                 </div>
 
                 <div className="mobile-links">
+                    <a href="#" className="mobile-link">All Categories</a>
                     <a href="#" className="mobile-link">Figures</a>
                     <a href="#" className="mobile-link">Keyboard & Keycap</a>
                     <a href="#" className="mobile-link">Lightning</a>

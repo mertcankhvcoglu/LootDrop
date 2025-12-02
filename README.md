@@ -1,4 +1,10 @@
-# LOOTDROP
+# LOOTDROP (WiP)
+
+If you want to examine the static version:
+https://mertcankhvcoglu.github.io/LootDrop/
+
+ "All Products" and "Home" pages are available for now
+
 
 <!-- # React + Vite
 
