@@ -12,7 +12,8 @@ const ProductCard = ({ product }) => {
             <div className='image-container'>
                 <img className='card-image'
                     alt={product.name}
-                    src={product.image}
+                    // DEĞİŞİKLİK BURADA: 'image' yerine 'imageUrl' kullanıyoruz (Backend'den gelen isim)
+                    src={product.imageUrl}
                 />
             </div>
 
@@ -20,14 +21,13 @@ const ProductCard = ({ product }) => {
                 <h3 className='card-title'>{product.name}</h3>
 
                 <div className='card-footer'>
-                    <span className='card-price'>$ {product.price}</span>
+                    {/* Fiyatın number veya string gelme ihtimaline karşı güvenli gösterim */}
+                    <span className='card-price'>$ {Number(product.price).toFixed(2)}</span>
                     <button className='add-btn'><MdAddShoppingCart /></button>
                 </div>
             </div>
         </div>
-
     )
-
 }
 
 export default ProductCard

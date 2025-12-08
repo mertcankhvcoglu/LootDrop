@@ -1,36 +1,48 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import '../css/ProductList.css'
 import ProductCard from './ProductCard.jsx';
-import { products } from '../data.js';
-
-
+// Statik veriyi kaldırdık, servisi ekledik:
+import { getProducts } from '../services/ProductService.js';
 
 const ProductList = ({ showHeader = true }) => {
 
-
     const listTopRef = useRef(null);
-    //states
+
+    // States
+    const [products, setProducts] = useState([]); // Ürün listesi
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 12 //for 3x4 or 4x3 grid
+    const [totalPages, setTotalPages] = useState(0); // Toplam sayfa sayısı artık backend'den gelecek
+    const [loading, setLoading] = useState(true); // Yükleniyor mu?
 
-    //mathematical calcs
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const itemsPerPage = 12;
 
-    //slice this area
-    const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+    // useEffect: Sayfa numarası (currentPage) her değiştiğinde çalışır
+    useEffect(() => {
+        fetchProducts(currentPage);
+    }, [currentPage]);
 
-    const totalPages = Math.ceil(products.length / itemsPerPage);
+    const fetchProducts = async (page) => {
+        setLoading(true);
+        try {
+            // Backend 0'dan başlar (page - 1), Frontend 1'den başlar.
+            // itemsPerPage bilgisini backend'e gönderiyoruz (Backend default 12 ama garanti olsun)
+            const data = await getProducts(null, page - 1);
+
+            setProducts(data.content); // Ürünleri state'e at
+            setTotalPages(data.totalPages); // Toplam sayfa sayısını güncelle
+        } catch (error) {
+            console.error("Ürünler çekilemedi:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
-        // Sayfa değişince kullanıcıyı sayfanın en tepesine at (UX kuralı)
-        if (listTopRef.current) {
-            // Elementin sayfanın en tepesine olan uzaklığını al
-            const yCoordinate = listTopRef.current.getBoundingClientRect().top + window.scrollY;
 
-            // Header'ın yüksekliğini (yaklaşık 80-100px) hesaba katarak biraz yukarıda dur
-            // Böylece başlık Header'ın arkasında kalmaz.
+        // UX Kuralı: Sayfa değişince yukarı kaydır
+        if (listTopRef.current) {
+            const yCoordinate = listTopRef.current.getBoundingClientRect().top + window.scrollY;
             const yOffset = -100;
 
             window.scrollTo({
@@ -40,29 +52,33 @@ const ProductList = ({ showHeader = true }) => {
         }
     };
 
+    // Loading Durumu
+    if (loading) {
+        return <div className="text-center p-10 text-white">Loading Cyberware...</div>;
+    }
 
     return (
-        // Eğer showHead false ise 'no-padding' sınıfını ekle
         <div ref={listTopRef} className={`product-list-container ${!showHeader ? 'shop-mode' : ''}`}>
 
-            {/* Başlık Alanı: Sadece showHead TRUE ise görünür */}
+            {/* Başlık Alanı */}
             {showHeader && (
                 <div className="list-header">
                     <h2 className="list-title">ALL <span className="highlight">DROPS</span></h2>
                 </div>
             )}
+
             {/* Item List */}
             <div className='products-grid'>
-                {currentItems.map((item) => (
+                {products.map((item) => (
+                    // Backend'den gelen her 'item' artık 'ProductCard'a gidiyor
                     <ProductCard key={item.id} product={item}></ProductCard>
                 ))}
             </div>
 
-            {/* CLIENT-SIDE PAGINATION */}
-
+            {/* SERVER-SIDE PAGINATION KONTROLLERİ */}
             {totalPages > 1 && (
                 <div className='pagination-container'>
-                    {/* back button */}
+                    {/* Back Button */}
                     <button
                         className='page-btn nav-btn'
                         onClick={() => paginate(currentPage - 1)}
@@ -71,13 +87,13 @@ const ProductList = ({ showHeader = true }) => {
                         &lt; Prev
                     </button>
 
+                    {/* Sayfa Numaraları */}
                     {[...Array(totalPages)].map((_, index) => {
-                        const pageNum = index + 1; // index starts from 0 so +1
+                        const pageNum = index + 1;
                         return (
                             <button
                                 key={pageNum}
                                 onClick={() => paginate(pageNum)}
-                                // Eğer şu anki sayfa bu butonsa 'active' sınıfı ekle (Sarı yap)
                                 className={`page-btn ${currentPage === pageNum ? 'active' : ''}`}
                             >
                                 {pageNum}
@@ -85,7 +101,7 @@ const ProductList = ({ showHeader = true }) => {
                         );
                     })}
 
-                    {/* İLERİ BUTONU */}
+                    {/* Next Button */}
                     <button
                         className="page-btn nav-btn"
                         onClick={() => paginate(currentPage + 1)}
@@ -93,14 +109,10 @@ const ProductList = ({ showHeader = true }) => {
                     >
                         Next &gt;
                     </button>
-
                 </div>
             )}
-
         </div>
     )
-
-
 };
 
-export default ProductList
+export default ProductList;
