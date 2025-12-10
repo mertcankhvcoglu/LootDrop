@@ -1,37 +1,36 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../css/ProductList.css'
 import ProductCard from './ProductCard.jsx';
-// Statik veriyi kaldırdık, servisi ekledik:
 import { getProducts } from '../services/ProductService.js';
 
-const ProductList = ({ showHeader = true }) => {
+// selectedCategory prop'unu karşıla
+const ProductList = ({ showHeader = true, selectedCategory }) => {
 
     const listTopRef = useRef(null);
-
-    // States
-    const [products, setProducts] = useState([]); // Ürün listesi
+    const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0); // Toplam sayfa sayısı artık backend'den gelecek
-    const [loading, setLoading] = useState(true); // Yükleniyor mu?
+    const [totalPages, setTotalPages] = useState(0);
+    const [loading, setLoading] = useState(true);
 
-    const itemsPerPage = 12;
+    // Kategori değiştiğinde sayfayı 1'e sıfırla
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [selectedCategory]);
 
-    // useEffect: Sayfa numarası (currentPage) her değiştiğinde çalışır
+    // Sayfa veya Kategori değişince veri çek
     useEffect(() => {
         fetchProducts(currentPage);
-    }, [currentPage]);
+    }, [currentPage, selectedCategory]);
 
     const fetchProducts = async (page) => {
         setLoading(true);
         try {
-            // Backend 0'dan başlar (page - 1), Frontend 1'den başlar.
-            // itemsPerPage bilgisini backend'e gönderiyoruz (Backend default 12 ama garanti olsun)
-            const data = await getProducts(null, page - 1);
-
-            setProducts(data.content); // Ürünleri state'e at
-            setTotalPages(data.totalPages); // Toplam sayfa sayısını güncelle
+            // Prop olarak gelen selectedCategory'i kullan
+            const data = await getProducts(selectedCategory, page - 1);
+            setProducts(data.content);
+            setTotalPages(data.totalPages);
         } catch (error) {
-            console.error("Ürünler çekilemedi:", error);
+            console.error("Hata:", error);
         } finally {
             setLoading(false);
         }
@@ -39,46 +38,42 @@ const ProductList = ({ showHeader = true }) => {
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
-
-        // UX Kuralı: Sayfa değişince yukarı kaydır
         if (listTopRef.current) {
+            // Scroll ayarını Shop sayfasının yapısına göre biraz daha yukarı çektim
             const yCoordinate = listTopRef.current.getBoundingClientRect().top + window.scrollY;
-            const yOffset = -100;
-
-            window.scrollTo({
-                top: yCoordinate + yOffset,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: yCoordinate - 150, behavior: 'smooth' });
         }
     };
 
-    // Loading Durumu
-    if (loading) {
-        return <div className="text-center p-10 text-white">Loading Cyberware...</div>;
-    }
+    if (loading) return <div className="text-white text-center p-10">Loading Cyberware...</div>;
 
     return (
         <div ref={listTopRef} className={`product-list-container ${!showHeader ? 'shop-mode' : ''}`}>
 
-            {/* Başlık Alanı */}
             {showHeader && (
                 <div className="list-header">
-                    <h2 className="list-title">ALL <span className="highlight">DROPS</span></h2>
+                    <h2 className="list-title">
+                        {selectedCategory ? selectedCategory.toUpperCase() : "ALL"} <span className="highlight">DROPS</span>
+                    </h2>
                 </div>
             )}
 
-            {/* Item List */}
+            {/* Ürün Listesi */}
             <div className='products-grid'>
-                {products.map((item) => (
-                    // Backend'den gelen her 'item' artık 'ProductCard'a gidiyor
-                    <ProductCard key={item.id} product={item}></ProductCard>
-                ))}
+                {products.length > 0 ? (
+                    products.map((item) => (
+                        <ProductCard key={item.id} product={item}></ProductCard>
+                    ))
+                ) : (
+                    <div className="text-white col-span-3 text-center py-10">
+                        No products found in this sector.
+                    </div>
+                )}
             </div>
 
-            {/* SERVER-SIDE PAGINATION KONTROLLERİ */}
+            {/* Pagination */}
             {totalPages > 1 && (
                 <div className='pagination-container'>
-                    {/* Back Button */}
                     <button
                         className='page-btn nav-btn'
                         onClick={() => paginate(currentPage - 1)}
@@ -87,7 +82,6 @@ const ProductList = ({ showHeader = true }) => {
                         &lt; Prev
                     </button>
 
-                    {/* Sayfa Numaraları */}
                     {[...Array(totalPages)].map((_, index) => {
                         const pageNum = index + 1;
                         return (
@@ -101,7 +95,6 @@ const ProductList = ({ showHeader = true }) => {
                         );
                     })}
 
-                    {/* Next Button */}
                     <button
                         className="page-btn nav-btn"
                         onClick={() => paginate(currentPage + 1)}

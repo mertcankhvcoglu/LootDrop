@@ -1,8 +1,21 @@
 import React from 'react'
 import '../css/FilterSidebar.css'
 
+// Backend'deki isimlerle aynı olmalı
+const CATEGORIES = ["Figures", "Keycaps", "Lighting", "Accessories"];
 
-const FilterSidebar = () => {
+// Props olarak state'i ve değiştirme fonksiyonunu alıyoruz
+const FilterSidebar = ({ selectedCategory, onSelectCategory }) => {
+
+    const handleCheckboxChange = (category) => {
+        // Eğer zaten seçili olana tıklarsa seçimi kaldır (null yap), yoksa yeni kategoriyi seç
+        if (selectedCategory === category) {
+            onSelectCategory(null);
+        } else {
+            onSelectCategory(category);
+        }
+    };
+
     return (
         <aside className='filter-sidebar'>
 
@@ -16,7 +29,7 @@ const FilterSidebar = () => {
                     <span>Price Range</span>
                     <span>^</span>
                 </div>
-                {/* Slider */}
+                {/* Slider şimdilik görsel */}
                 <div className='slider'>
                     <input type='range' min="0" max="2500" className='slider' />
                 </div>
@@ -26,19 +39,19 @@ const FilterSidebar = () => {
                         <span>Category</span>
                         <span>^</span>
                     </div>
+
                     <div className='checkbox-group'>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />Figures
-                        </label>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />Keycaps
-                        </label>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />Lighting
-                        </label>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />Accessories
-                        </label>
+                        {/* Kategorileri döngüyle oluşturuyoruz */}
+                        {CATEGORIES.map((cat) => (
+                            <label key={cat} className='checkbox-item'>
+                                <input
+                                    type='checkbox'
+                                    checked={selectedCategory === cat}
+                                    onChange={() => handleCheckboxChange(cat)}
+                                />
+                                {cat}
+                            </label>
+                        ))}
                     </div>
                 </div>
 
