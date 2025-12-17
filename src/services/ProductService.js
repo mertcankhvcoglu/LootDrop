@@ -3,21 +3,23 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8080/api/products';
 
 // size parametresini de ekledik
-export const getProducts = async (category, page = 0, size = 12) => {
+export const getProducts = async (categories, page = 0, size = 12) => {
     try {
         const params = {
             page: page,
             size: size
         };
 
-        if (category && category !== 'All') {
-            params.category = category;
+        // Eğer kategoriler dizisi doluysa, virgülle birleştirip gönderiyoruz
+        // Örn: categories=Figures,Lighting
+        if (categories && categories.length > 0) {
+            params.categories = categories.join(',');
         }
 
         const response = await axios.get(API_URL, { params });
         return response.data;
     } catch (error) {
-        console.error("Error when items loading:", error);
+        console.error("Ürünler yüklenirken hata oluştu:", error);
         throw error;
     }
 };

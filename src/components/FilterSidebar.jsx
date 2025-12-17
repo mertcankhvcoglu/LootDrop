@@ -1,19 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../css/FilterSidebar.css'
 
 // Backend'deki isimlerle aynı olmalı
 const CATEGORIES = ["Figures", "Keycaps", "Lighting", "Accessories"];
 
 // Props olarak state'i ve değiştirme fonksiyonunu alıyoruz
-const FilterSidebar = ({ selectedCategory, onSelectCategory }) => {
+// ÖNEMLİ DÜZELTME: selectedCategories undefined gelirse, varsayılan olarak boş dizi [] kullan.
+const FilterSidebar = ({ selectedCategories = [], onApplyFilters }) => {
+
+    // GEÇİCİ STATE: Kullanıcı butonları tıklarken burada tutuyoruz.
+    // Başlangıç değeri olarak parent'tan gelen gerçek seçimi (veya boş diziyi) alıyoruz.
+    const [tempSelected, setTempSelected] = useState(selectedCategories || []);
+
+    // Parent'taki seçim dışarıdan değişirse (örn: menüden resetlenirse) burayı da güncelle
+    // Her ihtimale karşı null/undefined gelirse boş diziye eşitle.
+    useEffect(() => {
+        setTempSelected(selectedCategories || []);
+    }, [selectedCategories]);
 
     const handleCheckboxChange = (category) => {
-        // Eğer zaten seçili olana tıklarsa seçimi kaldır (null yap), yoksa yeni kategoriyi seç
-        if (selectedCategory === category) {
-            onSelectCategory(null);
+        // Güvenlik Önlemi: tempSelected'ın kesinlikle bir dizi olduğundan emin olalım
+        const currentSelected = tempSelected || [];
+
+        if (currentSelected.includes(category)) {
+            // Varsa çıkar (Filtrele)
+            setTempSelected(currentSelected.filter(c => c !== category));
         } else {
-            onSelectCategory(category);
+            // Yoksa ekle
+            setTempSelected([...currentSelected, category]);
         }
+    };
+
+    // APPLY BUTONUNA BASINCA
+    const handleApplyClick = () => {
+        // Ana sayfadaki (Shop.jsx) state'i güncelle
+        onApplyFilters(tempSelected);
     };
 
     return (
@@ -46,7 +67,8 @@ const FilterSidebar = ({ selectedCategory, onSelectCategory }) => {
                             <label key={cat} className='checkbox-item'>
                                 <input
                                     type='checkbox'
-                                    checked={selectedCategory === cat}
+                                    // Artık tempSelected boş dizi olarak başladığı için .includes hatası vermez
+                                    checked={tempSelected.includes(cat)}
                                     onChange={() => handleCheckboxChange(cat)}
                                 />
                                 {cat}
@@ -57,7 +79,9 @@ const FilterSidebar = ({ selectedCategory, onSelectCategory }) => {
 
             </div>
 
-            <button className='apply-btn'>Apply Filters</button>
+            <button className='apply-btn' onClick={handleApplyClick}>
+                Apply Filters
+            </button>
         </aside>
     )
 }
