@@ -50,7 +50,7 @@ const ProductList = ({ showHeader = true, selectedCategories }) => {
         }
     };
 
-    if (loading) return <div className="text-white text-center p-10">Loading Cyberware...</div>;
+    if (loading) return <div className="text-white text-center p-10"></div>; // nvm
 
     return (
         <div ref={listTopRef} className={`product-list-container ${!showHeader ? 'shop-mode' : ''}`}>

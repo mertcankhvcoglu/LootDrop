@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/products';
+const API_URL = 'https://lootdrop-backend.onrender.com/api/products';
 
 // size parametresini de ekledik
 export const getProducts = async (categories, page = 0, size = 12) => {
