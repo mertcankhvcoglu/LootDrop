@@ -64,3 +64,7 @@
     opacity: 0.3;
     cursor: not-allowed;
 }
+
+.loading-text {
+    padding: 35px 40%;
+}

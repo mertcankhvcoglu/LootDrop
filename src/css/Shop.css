@@ -5,6 +5,8 @@
     max-width: 1800px;
     margin: 0 auto;
     align-items: flex-start;
+    position: relative;
+    /* Sidebar için gerekli */
 }
 
 .shop-content {
@@ -18,6 +20,8 @@
     border-bottom: 1px solid var(--light-blue);
     padding-bottom: 0px;
     margin-bottom: 0px;
+    flex-wrap: wrap;
+    /* Mobilde sığmazsa aşağı geçsin */
 }
 
 .shop-title {
@@ -36,4 +40,51 @@
     padding: 10px 20px;
     cursor: pointer;
     background-color: var(--card-bg);
+}
+
+.active-sort {
+    color: var(--neon-yellow);
+    font-weight: bold;
+}
+
+/* --- MOBİL FİLTRE BUTONU (Varsayılan: Gizli) --- */
+.mobile-filter-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--neon-yellow);
+    color: var(--neon-yellow);
+    padding: 8px 15px;
+    font-family: 'Tektur', sans-serif;
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+/* --- RESPONSIVE MEDIA QUERY --- */
+@media (max-width: 768px) {
+    .shop-page {
+        flex-direction: column;
+        /* Alt alta diz */
+        padding: 20px;
+    }
+
+    /* Mobilde Sidebar'ı Shop.jsx içinde gizlemiyoruz, 
+       Sidebar'ın kendi CSS'inde 'fixed' pozisyona alacağız. */
+
+    .mobile-filter-toggle {
+        display: flex;
+        /* Mobilde görünür yap */
+    }
+
+    .shop-title {
+        font-size: 1.2rem;
+        width: 100%;
+        /* Başlık tam satır kaplasın */
+    }
+
+    .header-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
 }

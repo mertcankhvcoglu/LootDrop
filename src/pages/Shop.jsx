@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ProductList from '../components/ProductList.jsx'
 import FilterSidebar from '../components/FilterSidebar.jsx'
 import '../css/Shop.css'
+import { HiOutlineAdjustments } from 'react-icons/hi';
 
 function Shop() {
     // 1. Kategori bilgisini burada tutuyoruz (Başlangıçta boş dizi [])
@@ -13,6 +14,9 @@ function Shop() {
         return selectedCategories.map(c => c.toUpperCase()).join(" & ");
     };
 
+    // YENİ: Mobil filtre menüsü açık mı?
+    const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
     return (
         <div className='shop-page container'>
 
@@ -20,7 +24,12 @@ function Shop() {
             {/* DÜZELTME: Prop isimleri FilterSidebar.jsx ile birebir aynı olmalı */}
             <FilterSidebar
                 selectedCategories={selectedCategories}
-                onApplyFilters={setSelectedCategories}
+                onApplyFilters={(cats) => {
+                    setSelectedCategories(cats);
+                    setIsMobileFilterOpen(false); // Uygula deyince menüyü kapat
+                }}
+                isOpen={isMobileFilterOpen}
+                onClose={() => setIsMobileFilterOpen(false)}
             />
 
             {/* RIGHT SIDE */}
@@ -32,8 +41,20 @@ function Shop() {
                     <h2 className='shop-title'>
                         {getTitle()} //
                     </h2>
-                    <div className='sort-dropdown'>
-                        Sort by: <span className='active-sort'>Relevance ↕</span>
+
+
+                    <div className="header-controls">
+                        {/* MOBİL FİLTRE BUTONU */}
+                        <button
+                            className="mobile-filter-toggle"
+                            onClick={() => setIsMobileFilterOpen(true)}
+                        >
+                            <HiOutlineAdjustments /> FILTERS
+                        </button>
+
+                        <div className='sort-dropdown'>
+                            Sort: <span className='active-sort'>Relevance ↕</span>
+                        </div>
                     </div>
                 </div>
 

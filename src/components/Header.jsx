@@ -7,12 +7,9 @@ import { MdPerson } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link } from 'react-router-dom';
 
-
 const Header = () => {
-
-    //Products dropdown menu open-close - Ürünler aşağıkayar menü aç-kapa değişkeni
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);  //mobile dropdown state
+    // Dropdown state'i kaldırıldı, sadece mobil menü state'i kaldı
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
@@ -20,7 +17,6 @@ const Header = () => {
 
     return (
         <header className="main-header">
-
 
             {/* LOGO */}
             <div className="logo-area">
@@ -31,30 +27,10 @@ const Header = () => {
 
             {/* LEFT PART - NAVIGATION */}
             <nav className="nav-links desktop-nav">
-
-                {/* Desktop Dropdown Menu (Hidden Mobile) */}
-                <div
-                    className="nav-item dropdown-container"
-                    onMouseEnter={() => setIsMenuOpen(true)}
-                    onMouseLeave={() => setIsMenuOpen(false)}
-                >
-                    <a href="#" className="nav-link">Products ▾</a>
-
-                    {isMenuOpen && (
-                        <div className="dropdown-menu">
-                            <Link
-                                to="/LootDrop/products"
-                                style={{ textDecoration: 'none', display: 'block', color: 'inherit' }}
-                                className="dropdown-item">
-                                All Categories
-                            </Link>
-                            <div className="dropdown-item">Figures</div>
-                            <div className="dropdown-item">Keycaps</div>
-                            <div className="dropdown-item">Lighting</div>
-                            <div className="dropdown-item">Accessories</div>
-                        </div>
-                    )}
-                </div>
+                {/* Dropdown kaldırıldı, direkt Link eklendi */}
+                <Link to="/LootDrop/products" className="nav-link">
+                    Products
+                </Link>
 
                 <a href="#" className="nav-link">-%- Black Market -%-</a>
                 <a href="#" className="nav-link">Soon</a>
@@ -71,7 +47,6 @@ const Header = () => {
                     <button className="icon-btn"><MdOutlineShoppingCart /></button>
                     <button className="icon-btn"><IoMdHeart /></button>
                     <button className="icon-btn desktop-only"><MdPerson /></button>
-                    {/* YENİ: HAMBURGER BUTONU (Sadece Mobilde Görünecek) */}
                     <button className="icon-btn mobile-menu-btn" onClick={toggleMobileMenu}>
                         <HiOutlineMenuAlt3 />
                     </button>
@@ -79,9 +54,7 @@ const Header = () => {
             </div>
 
             {/* MOBILE MENU (OVERLAY) */}
-            {/* control w css  */}
             <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'active' : ''}`}>
-
                 <div className="mobile-menu-header">
                     <span className='logo-text'>Menu</span>
                     <button className="icon-btn close-btn" onClick={toggleMobileMenu}>
@@ -90,7 +63,10 @@ const Header = () => {
                 </div>
 
                 <div className="mobile-links">
-                    <a href="#" className="mobile-link">All Categories</a>
+                    {/* Mobil tarafta da linki güncelledik */}
+                    <Link to="/LootDrop/products" className="mobile-link" onClick={toggleMobileMenu}>
+                        All Categories
+                    </Link>
                     <a href="#" className="mobile-link">Figures</a>
                     <a href="#" className="mobile-link">Keyboard & Keycap</a>
                     <a href="#" className="mobile-link">Lightning</a>
@@ -102,8 +78,7 @@ const Header = () => {
                 </div>
             </div>
         </header>
-
-
     );
 };
-export default Header
+
+export default Header;

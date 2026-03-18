@@ -25,7 +25,7 @@
 .logo-area {
     display: flex;
     align-items: center;
-    margin-right: 15px;
+    margin-right: 35px;
 }
 
 .logo-text {
@@ -42,11 +42,13 @@
     font-size: 0.8rem;
     font-weight: 500;
     padding: 20px 10px;
+    transition: 0.3s;
     /*for bigger hover part*/
 }
 
 .nav-link:hover {
     color: var(--neon-yellow);
+    text-shadow: 0 0 8px rgba(252, 238, 10, 0.5);
 }
 
 .dropdown-container {
