@@ -5,6 +5,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 
 import Home from './pages/Home.jsx'
 import Shop from './pages/Shop.jsx'
+import ProductDetailPage from './pages/ProductDetailPage.jsx'
 
 
 
@@ -17,6 +18,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Shop />} />
+        <Route path="/product/:id" element={<ProductDetailPage/>}/>
       </Routes>
       {/* <Hero />
       <ProductCard /> */}
