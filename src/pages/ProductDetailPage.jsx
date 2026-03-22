@@ -22,10 +22,10 @@ const ProductDetailPage = () => {
             articulation: "30+ POINTS"
         },
         images: [
-            "path/to/main-image.jpg", // Görseldeki ana resim
-            "path/to/thumb1.jpg",     // Küçük resim 1
-            "path/to/thumb2.jpg",     // Küçük resim 2
-            "path/to/thumb3.jpg"      // Küçük resim 3
+            "C:\Users\meto\Desktop\Projeler\Online-Market\lootdrop\src\assets\images\Cyberpunk-2077-Art-by-J-Hill.jpg", // Görseldeki ana resim
+            "C:\Users\meto\Desktop\Projeler\Online-Market\lootdrop\src\assets\images\Cyberpunk-2077-Art-by-J-Hill.jpg",     // Küçük resim 1
+            "C:\Users\meto\Desktop\Projeler\Online-Market\lootdrop\src\assets\images\Cyberpunk-2077-Art-by-J-Hill.jpg",     // Küçük resim 2
+            "C:\Users\meto\Desktop\Projeler\Online-Market\lootdrop\src\assets\images\Cyberpunk-2077-Art-by-J-Hill.jpg"      // Küçük resim 3
         ]
     };
 
