@@ -20,7 +20,7 @@ const Header = () => {
 
             {/* LOGO */}
             <div className="logo-area">
-                <Link to="/LootDrop" style={{ textDecoration: 'none' }}>
+                <Link to="/" style={{ textDecoration: 'none' }}>
                     <span className='logo-text'>LootDrop</span>
                 </Link>
             </div>
@@ -28,7 +28,7 @@ const Header = () => {
             {/* LEFT PART - NAVIGATION */}
             <nav className="nav-links desktop-nav">
                 {/* Dropdown kaldırıldı, direkt Link eklendi */}
-                <Link to="/LootDrop/products" className="nav-link">
+                <Link to="/products/" className="nav-link">
                     Products
                 </Link>
 
