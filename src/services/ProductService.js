@@ -23,3 +23,14 @@ export const getProducts = async (categories, page = 0, size = 12) => {
         throw error;
     }
 };
+
+export const getProductById = async (id) => {
+    try{
+        // backenddeki @GetMapping("/{id}") pointe request at.
+        const response = await axios.get(`${API_URL}/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Ürün detayı çekilirken hata oluştu:", error);
+        throw error;
+    }
+};
