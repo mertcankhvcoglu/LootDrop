@@ -39,6 +39,12 @@
     gap: 5px;
 }
 
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* Tıklanabilir alanın görseli tam kaplaması için */
+}
+
 .card-category {
     font-size: 0.8rem;
     display: none;
