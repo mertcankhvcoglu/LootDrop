@@ -1,18 +1,16 @@
 import React from 'react'
 import './App.css'
 import Header from './components/Header.jsx'
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom' // HashRouter importunu buradan sildik
 
 import Home from './pages/Home.jsx'
 import Shop from './pages/Shop.jsx'
 import ProductDetailPage from './pages/ProductDetailPage.jsx'
 
-
-
 const App = () => {
   return (
     <div className='app-container'>
-
+      {/* Header artık güvenle Linkleri çalıştırabilir */}
       <Header />
 
       <Routes>
@@ -20,10 +18,6 @@ const App = () => {
         <Route path="/products" element={<Shop />} />
         <Route path="/product/:id" element={<ProductDetailPage/>}/>
       </Routes>
-      {/* <Hero />
-      <ProductCard /> */}
-      {/* <ProductList /> */}
-
     </div>
   )
 }
