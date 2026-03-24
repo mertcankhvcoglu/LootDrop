@@ -1,6 +1,7 @@
 import React from 'react'
 import '../css/ProductCard.css';
 import { MdAddShoppingCart } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
 
@@ -9,16 +10,20 @@ const ProductCard = ({ product }) => {
     return (
         <div className='product-card'>
             {/* Image  */}
-            <div className='image-container'>
-                <img className='card-image'
-                    alt={product.name}
-                    // DEĞİŞİKLİK BURADA: 'image' yerine 'imageUrl' kullanıyoruz (Backend'den gelen isim)
-                    src={product.imageUrl}
-                />
-            </div>
+            
+<Link to={`/product/${product.id}`} className='card-link'>
+                <div className='image-container'>
+                    <img className='card-image'
+                        alt={product.name}
+                        src={product.imageUrl}
+                    />
+                </div>
+            </Link>
 
             <div className='card-info'>
-                <h3 className='card-title'>{product.name}</h3>
+                <Link to={`/product/${product.id}`} className='card-link'>
+                    <h3 className='card-title'>{product.name}</h3>
+                </Link>
 
                 <div className='card-footer'>
                     {/* Fiyatın number veya string gelme ihtimaline karşı güvenli gösterim */}

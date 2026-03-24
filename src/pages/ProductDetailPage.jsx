@@ -36,7 +36,7 @@ const ProductDetailPage = () => {
 
     return (
         <div className='product-detail-page'>
-            <div className='container'>
+            <div className='container-dp'>
                 <nav className='breadcrumb'>
                     ROOT / {product.category?.name || "CATEGORY"} / <span className='active-node'>{product.name?.replace(/\s+/g, '_')}</span>
                 </nav>
