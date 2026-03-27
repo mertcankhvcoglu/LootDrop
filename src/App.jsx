@@ -1,21 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react' // 1. useState eklendi
 import './App.css'
 import Header from './components/Header.jsx'
-import { Route, Routes } from 'react-router-dom' // HashRouter importunu buradan sildik
+import { Route, Routes } from 'react-router-dom'
 
 import Home from './pages/Home.jsx'
 import Shop from './pages/Shop.jsx'
 import ProductDetailPage from './pages/ProductDetailPage.jsx'
 
 const App = () => {
+  // 2. Arama kelimesini burada (ebeveyn) tanımlıyoruz.
+  // Bu değişken artık "Single Source of Truth" (Tek Doğruluk Kaynağı) olacak.
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <div className='app-container'>
-      {/* Header artık güvenle Linkleri çalıştırabilir */}
-      <Header />
+      {/* 3. Header'a hem değeri hem de fonksiyonu gönderiyoruz. 
+          Böylece Header yazacak, buradaki state güncellenecek. */}
+      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Shop />} />
+        {/* 4. Home ve Shop sayfalarına searchTerm'ü prop olarak geçiyoruz. 
+            Bu sayfalar da içlerindeki ProductList'e bu veriyi aktaracak. */}
+        <Route path="/" element={<Home searchTerm={searchTerm} />} />
+        <Route path="/products" element={<Shop searchTerm={searchTerm} />} />
         <Route path="/product/:id" element={<ProductDetailPage/>}/>
       </Routes>
     </div>
