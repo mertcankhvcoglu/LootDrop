@@ -2,11 +2,13 @@ import React from 'react'
 import Hero from '../components/Hero.jsx'
 import ProductList from '../components/ProductList.jsx'
 
-function Home() {
+// App.jsx'ten gelen searchTerm prop'unu karşılıyoruz
+function Home({ searchTerm }) { 
     return (
         <div>
             <Hero />
-            <ProductList />
+            {/* Veriyi ProductList'e paslıyoruz */}
+            <ProductList searchTerm={searchTerm} />
         </div>
     )
 }
