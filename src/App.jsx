@@ -8,8 +8,8 @@ import Shop from './pages/Shop.jsx'
 import ProductDetailPage from './pages/ProductDetailPage.jsx'
 
 const App = () => {
-  // 2. Arama kelimesini burada (ebeveyn) tanımlıyoruz.
-  // Bu değişken artık "Single Source of Truth" (Tek Doğruluk Kaynağı) olacak.
+  // Arama kelimesini burada parent olarak tanımlı
+  //"Single Source of Truth"
   const [searchTerm, setSearchTerm] = useState("");
 
   return (

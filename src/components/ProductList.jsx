@@ -3,8 +3,8 @@ import '../css/ProductList.css'
 import ProductCard from './ProductCard.jsx';
 import { getProducts } from '../services/ProductService.js';
 
-// DİKKAT: Prop ismi 'selectedCategories' (Çoğul) oldu
-const ProductList = ({ showHeader = true, selectedCategories }) => {
+// DİKKAT: Prop ismi 'selectedCategories' (Çoğul) oldu. searchTerm prop'u eklendi.
+const ProductList = ({ showHeader = true, selectedCategories, searchTerm }) => {
 
     const listTopRef = useRef(null);
     const [products, setProducts] = useState([]);
@@ -12,21 +12,22 @@ const ProductList = ({ showHeader = true, selectedCategories }) => {
     const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] = useState(true);
 
-    // Kategori değiştiğinde sayfayı 1 yap
+    // Kategori veya Arama terimi değiştiğinde sayfayı 1 yap
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedCategories]);
+    }, [selectedCategories, searchTerm]); // searchTerm bağımlılıklara eklendi
 
     // Veri çekme isteği
     useEffect(() => {
         fetchProducts(currentPage);
-    }, [currentPage, selectedCategories]);
+    }, [currentPage, selectedCategories, searchTerm]); // searchTerm değişince useEffect tetiklenecek
 
     const fetchProducts = async (page) => {
         setLoading(true);
         try {
-            // Dizi halindeki kategorileri gönderiyoruz
-            const data = await getProducts(selectedCategories, page - 1);
+            // Dizi halindeki kategorileri ve arama terimini gönderiyoruz
+            // getProducts(categories, page, size, search) formatına uygun
+            const data = await getProducts(selectedCategories, page - 1, 9, searchTerm);
             setProducts(data.content);
             setTotalPages(data.totalPages);
         } catch (error) {
@@ -35,11 +36,6 @@ const ProductList = ({ showHeader = true, selectedCategories }) => {
             setLoading(false);
         }
     };
-
-    // ... Kalan kısımlar (Paginate fonksiyonu, Render kısmı) AYNI kalıyor ...
-    // ... Sadece return içindeki kodları koru, üstteki useEffect ve fetchProducts'ı güncellemen yeterli ...
-
-    // (Kodun devamını öncekiyle aynı tutabilirsin, sadece pagination ve return kısmı)
 
     // paginate fonksiyonu buraya...
     const paginate = (pageNumber) => {
@@ -50,14 +46,14 @@ const ProductList = ({ showHeader = true, selectedCategories }) => {
         }
     };
 
-    if (loading) return <div className="loading-text">\\ Loading Cyberware //</div>; // nvm
+    if (loading) return <div className="loading-text">\\ Loading Cyberware //</div>; 
 
     return (
         <div ref={listTopRef} className={`product-list-container ${!showHeader ? 'shop-mode' : ''}`}>
             {showHeader && (
                 <div className="list-header">
                     <h2 className="list-title">
-                        ALL <span className="highlight">DROPS</span>
+                        {searchTerm ? `SEARCH: ${searchTerm.toUpperCase()}` : 'ALL'} <span className="highlight">DROPS</span>
                     </h2>
                 </div>
             )}
@@ -74,10 +70,8 @@ const ProductList = ({ showHeader = true, selectedCategories }) => {
                 )}
             </div>
 
-            {/* Pagination kodları aynı... */}
             {totalPages > 1 && (
                 <div className='pagination-container'>
-
                     <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className='page-btn nav-btn'>&lt; Prev</button>
                     {[...Array(totalPages)].map((_, index) => (
                         <button key={index + 1} onClick={() => paginate(index + 1)} className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}>{index + 1}</button>
