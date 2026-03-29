@@ -19,31 +19,30 @@ LootDrop is a high-performance e-commerce user interface specifically designed f
 
 ## 🧠 Engineering Approaches & Algorithms
 
-### 1. Global Search System & Controlled Components
-A centralized search protocol was implemented to allow users to find hardware across the entire catalog.
-* **Controlled Components:** The search input in the `Header` is fully managed via React State. Every keystroke synchronizes with the `searchTerm` state, ensuring a "Single Source of Truth."
-* **Lifting State Up:** To enable communication between the `Header` (where data is entered) and the `ProductList` (where data is displayed), the search state was lifted to the common ancestor, `App.jsx`.
-* **Prop Drilling:** The search term is efficiently passed down through page components (`Home`, `Shop`) to the target list, maintaining a clear data flow.
+### 1. Localized Search & Autocomplete Protocol
+Instead of a global search that triggers expensive full-page re-renders, a high-performance **Autocomplete** system was implemented within the `Header` component.
+* **State Encapsulation:** Search logic is kept local to the Header, ensuring that keystrokes do not affect the Virtual DOM of the entire application.
+* **Debouncing Algorithm:** To prevent server-side flooding, a **400ms debounce** was implemented using `useEffect` and `setTimeout`. This ensures an API request is only sent after the user finishes typing.
+* **Click-Outside Pattern:** Utilizing `useRef` and global event listeners, the search dropdown intelligently closes when a user clicks outside the search perimeter, enhancing the UX.
 
-### 2. Server-Side Pagination & Search Sync
-To optimize network traffic and prevent memory overhead on the client side, a **Server-Side Pagination** architecture was implemented.
-* **Logic:** The `ProductList` component manages the current page state. Every state change (including search term updates) triggers a `useEffect` hook that requests a specific data slice from the Spring Boot backend.
-* **Syncing Mechanism:** The system is programmed to reset the pagination to **Page 1** automatically whenever a new search or filter is applied, preventing empty state errors on deep pages.
+### 2. Server-Side Pagination
+To optimize network traffic and prevent memory overhead on the client side, a **Server-Side Pagination** architecture was implemented for the product catalog.
+* **Logic:** The `ProductList` component manages the current page state. Every state change triggers a `useEffect` hook that requests a specific data slice from the Spring Boot backend.
 * **UX Enhancement:** A "Smooth Scroll" feature was integrated using `useRef`. Upon page transition, the window automatically scrolls to the top of the product grid for a seamless transition.
 
 ### 3. Dynamic Data Routing
 The application handles product details through a highly scalable dynamic routing system.
 * Using the `:id` parameter and `useParams` hook, the system fetches specific product data from the API. This allowed me to support thousands of unique items using a single, memory-efficient template component: `ProductDetailPage.jsx`.
 
-### 4. State Management (State Lifting)
+### 4. State Management (Lifting State Up)
 The category filtering system in the `Shop.jsx` page follows the **State Lifting** pattern.
-* Selected categories are maintained in a central state and passed down to the `FilterSidebar`. Any change in the filter triggers a refined API call, ensuring the UI and the database remain in sync without unnecessary re-renders.
+* Selected categories are maintained in a central state within the Shop page and passed down to the `FilterSidebar`. This ensures the sidebar and the product grid stay synchronized without unnecessary global state overhead.
 
 ### 5. Service Layer Pattern
-Following the **Separation of Concerns (SoC)** principle, all HTTP logic is decoupled from UI components and centralized in `services/ProductService.js`. This makes the codebase:
-* Easier to maintain and test.
-* Resilient to API endpoint changes.
-* Highly reusable across different components.
+Following the **Separation of Concerns (SoC)** principle, all HTTP logic is decoupled from UI components and centralized in `services/ProductService.js`. 
+* Centralized API configuration.
+* Reusable methods for search, list, and detail fetching.
+* Robust error handling with graceful degradation.
 
 ---
 
@@ -53,8 +52,8 @@ Following the **Separation of Concerns (SoC)** principle, all HTTP logic is deco
 src/
 ├── components/     # Reusable UI components (Header, Card, Sidebar)
 ├── pages/          # Main views (Home, Shop, ProductDetailPage)
-├── services/       # API communication layer
+├── services/       # API communication layer (Axios instances)
 ├── css/            # Modular and variable-based stylesheets
 ├── assets/         # Static assets and brand images
-├── App.jsx         # Route configuration and layout
+├── App.jsx         # Clean route configuration
 └── main.jsx        # Entry point and Router provider
