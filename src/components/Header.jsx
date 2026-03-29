@@ -1,22 +1,67 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react' // 1. useEffect ve useRef eklendi
 import '../css/Header.css'
 import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { IoMdHeart } from "react-icons/io";
 import { MdPerson } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // 2. useNavigate eklendi
+import { searchProductsQuickly } from '../services/ProductService'; // Servisi çağırdık
 
-// Prop olarak App.jsx'ten gelen değerleri al
-const Header = ({ searchTerm, setSearchTerm }) => {
+// DİKKAT: Artık props üzerinden gelen searchTerm'ü değil, içerideki localState'i kullanacağız
+const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    // --- YENİ ARAMA STATE'LERİ ---
+    const [localSearchTerm, setLocalSearchTerm] = useState(""); // Input'un içindeki canlı yazı
+    const [suggestions, setSuggestions] = useState([]); // Gelen öneri ürünleri
+    const [showDropdown, setShowDropdown] = useState(false); // Menü görünsün mü?
+    
+    const dropdownRef = useRef(null); // Menü dışına tıklanınca kapatmak için ref
+    const navigate = useNavigate();
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
     }
 
+    // --- DEBOUNCING & API CALL ---
+    // Bu useEffect, kullanıcı yazmayı bırakınca 400ms bekleyip istek atar.
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(async () => {
+            if (localSearchTerm.trim().length >= 2) {
+                const results = await searchProductsQuickly(localSearchTerm);
+                setSuggestions(results);
+                setShowDropdown(true);
+            } else {
+                setSuggestions([]);
+                setShowDropdown(false);
+            }
+        }, 400);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [localSearchTerm]);
+
+    // --- CLICK OUTSIDE ---
+    // Arama menüsü dışına tıklandığında menüyü kapatan mantık
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [dropdownRef]);
+
+    // --- SELECTION HANDLER ---
+    const handleSelectProduct = (productId) => {
+        setShowDropdown(false); // Menüyü kapat
+        setLocalSearchTerm(""); // Arama kutusunu temizle
+        navigate(`/product/${productId}`); // Detay sayfasına uçur
+    };
+
     return (
-        <header className="main-header">
+        <header className="main-header" ref={dropdownRef}>
             {/* LOGO */}
             <div className="logo-area">
                 <Link to="/" style={{ textDecoration: 'none' }}>
@@ -35,15 +80,41 @@ const Header = ({ searchTerm, setSearchTerm }) => {
 
             {/* RIGHT PART : SEARCH AND ICONS */}
             <div className="header-actions">
-                <div className="search-box desktop-search">
-                    <span className="search-icon"><AiOutlineSearch /></span>
-                    {/* 2. INPUT KONTROL ALTINA ALINDI */}
-                    <input 
-                        type="text" 
-                        placeholder="Search..." 
-                        value={searchTerm} // Değeri state'ten al
-                        onChange={(e) => setSearchTerm(e.target.value)} // Her harfte state'i güncelle
-                    />
+                {/* Arama Kutusu Sarmalayıcı */}
+                <div className="search-wrapper desktop-search">
+                    <div className="search-box">
+                        <span className="search-icon"><AiOutlineSearch /></span>
+                        <input 
+                            type="text" 
+                            placeholder="SEARCH_PROTOCOL..." 
+                            value={localSearchTerm} // Local state kullanıyoruz
+                            onChange={(e) => setLocalSearchTerm(e.target.value)} 
+                            onFocus={() => localSearchTerm.length >= 2 && setShowDropdown(true)}
+                        />
+                    </div>
+
+                    {/* --- ÖNERİLER DROPDOWN --- */}
+                    {showDropdown && (
+                        <div className="search-dropdown">
+                            {suggestions.length > 0 ? (
+                                suggestions.map((product) => (
+                                    <div 
+                                        key={product.id} 
+                                        className="dropdown-item"
+                                        onClick={() => handleSelectProduct(product.id)}
+                                    >
+                                        <img src={product.imageUrl} alt={product.name} className="item-thumb" />
+                                        <div className="item-details">
+                                            <span className="item-name">{product.name}</span>
+                                            <span className="item-price">${product.price?.toFixed(2)}</span>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="no-result">NO_HARDWARE_FOUND</div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <div className="icon-group">
@@ -66,8 +137,6 @@ const Header = ({ searchTerm, setSearchTerm }) => {
                 </div>
 
                 <div className="mobile-links">
-                    {/* 3. Arama kutusunu mobil menüye de ekleyebilirsin istersen, 
-                        ama şimdilik masaüstü üzerinden gidelim */}
                     <Link to="/products" className="mobile-link" onClick={toggleMobileMenu}>
                         All Categories
                     </Link>

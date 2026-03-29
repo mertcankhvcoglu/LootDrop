@@ -34,3 +34,27 @@ export const getProductById = async (id) => {
         throw error;
     }
 };
+
+/**
+ * 3. YENİ: Hızlı Arama (Autocomplete/Suggestions) Protokolü
+ * Bu fonksiyon sadece Header'daki dropdown için hafif bir sorgu atar.
+ */
+export const searchProductsQuickly = async (searchTerm = "") => {
+    try {
+        // Mülakat Notu: Gereksiz network trafiğini önlemek için kısa aramaları engelliyoruz.
+        if (!searchTerm || searchTerm.trim().length < 2) return []; 
+        
+        const response = await axios.get(`${API_URL}/search`, { 
+            params: {
+                name: searchTerm, // Backend'de @RequestParam String name bekleyen bir metod olmalı
+                size: 5           // Sadece en alakalı 5 sonucu getir (Performans optimizasyonu)
+            }
+        });
+
+        // Backend Page objesi dönüyorsa response.data.content, liste dönüyorsa response.data
+        return response.data.content || response.data; 
+    } catch (error) {
+        console.error("Hızlı arama sırasında hata:", error);
+        return []; // Hata durumunda uygulamayı bozmamak için boş dizi dönüyoruz
+    }
+};

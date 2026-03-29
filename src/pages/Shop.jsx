@@ -4,8 +4,8 @@ import FilterSidebar from '../components/FilterSidebar.jsx'
 import '../css/Shop.css'
 import { HiOutlineAdjustments } from 'react-icons/hi';
 
-// 1. App.jsx'ten gelen searchTerm prop'unu karşılıyoruz
-function Shop({ searchTerm }) { 
+// searchTerm prop'u kaldırıldı
+function Shop() { 
     const [selectedCategories, setSelectedCategories] = useState([]);
 
     const getTitle = () => {
@@ -17,6 +17,7 @@ function Shop({ searchTerm }) {
 
     return (
         <div className='shop-page container'>
+            {/* FilterSidebar.jsx ile birebir aynı olmalı */}
             <FilterSidebar
                 selectedCategories={selectedCategories}
                 onApplyFilters={(cats) => {
@@ -47,11 +48,10 @@ function Shop({ searchTerm }) {
                     </div>
                 </div>
 
-                {/* 2. searchTerm'ü ProductList'e aktarıyoruz */}
+                {/* searchTerm prop'u kaldırıldı, sadece kategorilerle çalışıyor */}
                 <ProductList
                     showHeader={false}
                     selectedCategories={selectedCategories}
-                    searchTerm={searchTerm} 
                 />
             </div>
         </div>

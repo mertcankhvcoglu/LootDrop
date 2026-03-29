@@ -3,8 +3,8 @@ import '../css/ProductList.css'
 import ProductCard from './ProductCard.jsx';
 import { getProducts } from '../services/ProductService.js';
 
-// DİKKAT: Prop ismi 'selectedCategories' (Çoğul) oldu. searchTerm prop'u eklendi.
-const ProductList = ({ showHeader = true, selectedCategories, searchTerm }) => {
+// DİKKAT: searchTerm prop'u artık bu bileşene gelmiyor, temizlendi.
+const ProductList = ({ showHeader = true, selectedCategories }) => {
 
     const listTopRef = useRef(null);
     const [products, setProducts] = useState([]);
@@ -12,22 +12,22 @@ const ProductList = ({ showHeader = true, selectedCategories, searchTerm }) => {
     const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] = useState(true);
 
-    // Kategori veya Arama terimi değiştiğinde sayfayı 1 yap
+    // Kategori değiştiğinde sayfayı 1 yap
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedCategories, searchTerm]); // searchTerm bağımlılıklara eklendi
+    }, [selectedCategories]); // searchTerm bağımlılığı kaldırıldı
 
     // Veri çekme isteği
     useEffect(() => {
         fetchProducts(currentPage);
-    }, [currentPage, selectedCategories, searchTerm]); // searchTerm değişince useEffect tetiklenecek
+    }, [currentPage, selectedCategories]); // searchTerm bağımlılığı kaldırıldı
 
     const fetchProducts = async (page) => {
         setLoading(true);
         try {
-            // Dizi halindeki kategorileri ve arama terimini gönderiyoruz
-            // getProducts(categories, page, size, search) formatına uygun
-            const data = await getProducts(selectedCategories, page - 1, 9, searchTerm);
+            // Sadece kategoriler ve sayfa bilgisi gönderiliyor.
+            // Arama işlemi artık Header içindeki bağımsız fonksiyonla yönetiliyor.
+            const data = await getProducts(selectedCategories, page - 1, 9);
             setProducts(data.content);
             setTotalPages(data.totalPages);
         } catch (error) {
@@ -53,7 +53,8 @@ const ProductList = ({ showHeader = true, selectedCategories, searchTerm }) => {
             {showHeader && (
                 <div className="list-header">
                     <h2 className="list-title">
-                        {searchTerm ? `SEARCH: ${searchTerm.toUpperCase()}` : 'ALL'} <span className="highlight">DROPS</span>
+                        {/* Arama terimi gösterimi kaldırıldı, genel başlığa dönüldü */}
+                        ALL <span className="highlight">DROPS</span>
                     </h2>
                 </div>
             )}
@@ -70,6 +71,7 @@ const ProductList = ({ showHeader = true, selectedCategories, searchTerm }) => {
                 )}
             </div>
 
+            {/* Pagination kodları aynı... */}
             {totalPages > 1 && (
                 <div className='pagination-container'>
                     <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className='page-btn nav-btn'>&lt; Prev</button>

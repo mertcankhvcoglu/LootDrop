@@ -2,13 +2,13 @@ import React from 'react'
 import Hero from '../components/Hero.jsx'
 import ProductList from '../components/ProductList.jsx'
 
-// App.jsx'ten gelen searchTerm prop'unu karşılıyoruz
-function Home({ searchTerm }) { 
+// searchTerm prop'u artık buradan geçmiyor (Header içinde local yönetiliyor)
+function Home() { 
     return (
         <div>
             <Hero />
-            {/* Veriyi ProductList'e paslıyoruz */}
-            <ProductList searchTerm={searchTerm} />
+            {/* ProductList artık bağımsız; genel aramayı değil kendi listelemesini yapar */}
+            <ProductList />
         </div>
     )
 }
