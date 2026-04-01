@@ -6,6 +6,8 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Shop from './pages/Shop.jsx'
 import ProductDetailPage from './pages/ProductDetailPage.jsx'
+// context provider'ı içeri alıyoruz Bean container'ın giriş kapısı
+import { CartProvider } from './context/CartContext.jsx'
 
 const App = () => {
   // Arama kelimesi artık Header içinde Local State olarak yönetiliyor.
@@ -13,17 +15,22 @@ const App = () => {
   // "Single Source of Truth" prensibi, bu özellik için Header seviyesine indirildi.
 
   return (
-    <div className='app-container'>
-      {/* Header artık props almadan kendi içindeki autocomplete mantığını yönetiyor */}
-      <Header />
 
-      <Routes>
-        {/* Home ve Shop sayfaları artık prop drilling zahmetinden ve gereksiz render yükünden kurtuldu */}
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Shop />} />
-        <Route path="/product/:id" element={<ProductDetailPage/>}/>
-      </Routes>
-    </div>
+    <CartProvider>
+
+      <div className='app-container'>
+        {/* Header artık props almadan kendi içindeki autocomplete mantığını yönetiyor */}
+        <Header />
+
+        <Routes>
+          {/* Home ve Shop sayfaları artık prop drilling zahmetinden ve gereksiz render yükünden kurtuldu */}
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Shop />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
+        </Routes>
+      </div>
+
+    </CartProvider>
   )
 }
 

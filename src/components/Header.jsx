@@ -16,7 +16,7 @@ const Header = () => {
     const [localSearchTerm, setLocalSearchTerm] = useState(""); // Input'un içindeki canlı yazı
     const [suggestions, setSuggestions] = useState([]); // Gelen öneri ürünleri
     const [showDropdown, setShowDropdown] = useState(false); // Menü görünsün mü?
-    
+
     const dropdownRef = useRef(null); // Menü dışına tıklanınca kapatmak için ref
     const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const Header = () => {
     }
 
     // --- DEBOUNCING & API CALL ---
-    // Bu useEffect, kullanıcı yazmayı bırakınca 400ms bekleyip istek atar.
+    // Bu useEffect, kullanıcı yazmayı bırakınca 250ms bekleyip istek atar.
     useEffect(() => {
         const delayDebounceFn = setTimeout(async () => {
             if (localSearchTerm.trim().length >= 2) {
@@ -36,7 +36,7 @@ const Header = () => {
                 setSuggestions([]);
                 setShowDropdown(false);
             }
-        }, 400);
+        }, 250);
 
         return () => clearTimeout(delayDebounceFn);
     }, [localSearchTerm]);
@@ -84,11 +84,11 @@ const Header = () => {
                 <div className="search-wrapper desktop-search">
                     <div className="search-box">
                         <span className="search-icon"><AiOutlineSearch /></span>
-                        <input 
-                            type="text" 
-                            placeholder="SEARCH_PROTOCOL..." 
+                        <input
+                            type="text"
+                            placeholder="SEARCH_PROTOCOL..."
                             value={localSearchTerm} // Local state kullanıyoruz
-                            onChange={(e) => setLocalSearchTerm(e.target.value)} 
+                            onChange={(e) => setLocalSearchTerm(e.target.value)}
                             onFocus={() => localSearchTerm.length >= 2 && setShowDropdown(true)}
                         />
                     </div>
@@ -98,8 +98,8 @@ const Header = () => {
                         <div className="search-dropdown">
                             {suggestions.length > 0 ? (
                                 suggestions.map((product) => (
-                                    <div 
-                                        key={product.id} 
+                                    <div
+                                        key={product.id}
                                         className="dropdown-item"
                                         onClick={() => handleSelectProduct(product.id)}
                                     >
