@@ -7,6 +7,7 @@ import { MdPerson } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom'; // 2. useNavigate eklendi
 import { searchProductsQuickly } from '../services/ProductService'; // Servisi çağırdık
+import { useCart } from '../context/CartContext.jsx'; // YENİ: Sepet kanalına bağlanıyoruz
 
 // DİKKAT: Artık props üzerinden gelen searchTerm'ü değil, içerideki localState'i kullanacağız
 const Header = () => {
@@ -16,6 +17,11 @@ const Header = () => {
     const [localSearchTerm, setLocalSearchTerm] = useState(""); // Input'un içindeki canlı yazı
     const [suggestions, setSuggestions] = useState([]); // Gelen öneri ürünleri
     const [showDropdown, setShowDropdown] = useState(false); // Menü görünsün mü?
+
+    // --- SEPET VERİLERİ ---
+    const { cartItems } = useCart(); // Global sepet state'ini çekiyoruz
+    // Toplam ürün adedini hesapla (derived state)
+    const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
 
     const dropdownRef = useRef(null); // Menü dışına tıklanınca kapatmak için ref
     const navigate = useNavigate();
@@ -118,7 +124,14 @@ const Header = () => {
                 </div>
 
                 <div className="icon-group">
-                    <button className="icon-btn"><MdOutlineShoppingCart /></button>
+                    {/* SEPET İKONU VE BADGE */}
+                    <div className="cart-icon-wrapper">
+                        <button className="icon-btn"><MdOutlineShoppingCart /></button>
+                        {totalItems > 0 && (
+                            <span className="cart-badge">{totalItems}</span>
+                        )}
+                    </div>
+
                     <button className="icon-btn"><IoMdHeart /></button>
                     <button className="icon-btn desktop-only"><MdPerson /></button>
                     <button className="icon-btn mobile-menu-btn" onClick={toggleMobileMenu}>

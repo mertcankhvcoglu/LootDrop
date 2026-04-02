@@ -3,7 +3,7 @@ import Hero from '../components/Hero.jsx'
 import ProductList from '../components/ProductList.jsx'
 
 // searchTerm prop'u artık buradan geçmiyor (Header içinde local yönetiliyor)
-function Home() { 
+function Home() {
     return (
         <div>
             <Hero />

@@ -46,7 +46,7 @@ const ProductList = ({ showHeader = true, selectedCategories }) => {
         }
     };
 
-    if (loading) return <div className="loading-text">\\ Loading Cyberware //</div>; 
+    if (loading) return <div className="loading-text">\\ Loading Cyberware //</div>;
 
     return (
         <div ref={listTopRef} className={`product-list-container ${!showHeader ? 'shop-mode' : ''}`}>

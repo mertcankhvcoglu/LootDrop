@@ -68,7 +68,8 @@
 }
 
 .search-wrapper {
-    position: relative; /* Menü buna göre hizalanacak (Absolute Anchor) */
+    position: relative;
+    /* Menü buna göre hizalanacak (Absolute Anchor) */
     display: flex;
     flex-direction: column;
 }
@@ -79,7 +80,8 @@
     background-color: var(--card-bg);
     padding: 8px 15px;
     border: 1px solid var(--light-blue);
-    width: 250px; /* Biraz genişlettik */
+    width: 250px;
+    /* Biraz genişlettik */
     transition: border-color 0.3s;
 }
 
@@ -106,12 +108,16 @@
 
 .search-dropdown {
     position: absolute;
-    top: calc(100% + 5px); /* Input'un tam altına 5px boşlukla yapış */
+    top: calc(100% + 5px);
+    /* Input'un tam altına 5px boşlukla yapış */
     left: 0;
-    width: 100%; /* Input genişliğiyle aynı olsun */
-    background-color: #0d0d0d; /* Daha koyu bir siyah */
+    width: 100%;
+    /* Input genişliğiyle aynı olsun */
+    background-color: #0d0d0d;
+    /* Daha koyu bir siyah */
     border: 1px solid var(--neon-blue);
-    border-top: 3px solid var(--neon-blue); /* Üstte daha kalın bir çizgi */
+    border-top: 3px solid var(--neon-blue);
+    /* Üstte daha kalın bir çizgi */
     z-index: 1000;
     max-height: 350px;
     overflow-y: auto;
@@ -121,6 +127,7 @@
 .search-dropdown::-webkit-scrollbar {
     width: 4px;
 }
+
 .search-dropdown::-webkit-scrollbar-thumb {
     background: var(--neon-blue);
 }
@@ -138,7 +145,8 @@
 
 .dropdown-item:hover {
     background-color: rgba(0, 255, 255, 0.05);
-    padding-left: 18px; /* Küçük bir kayma efekti */
+    padding-left: 18px;
+    /* Küçük bir kayma efekti */
 }
 
 .item-thumb {
@@ -231,6 +239,47 @@
     /* in-screen */
 }
 
+.cart-icon-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* 2. Sayıyı 'mutlak' (absolute) olarak ikonun üzerine konumlandırıyoruz */
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    /* İkonun biraz yukarısında */
+    right: -8px;
+    /* İkonun biraz sağında */
+
+    background-color: var(--neon-blue);
+    /* Neon mavi */
+    color: #000;
+    /* Sayı siyah olsun ki parlasın */
+
+    font-size: 0.75rem;
+    font-weight: 800;
+    font-family: 'Space Grotesk', sans-serif;
+
+    min-width: 13px;
+    height: 15px;
+    padding: 0 4px;
+
+    /* border-radius: 50%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Cyberware etkisi: Parlama ve Animasyon */
+    box-shadow: 0 0 10px var(--neon-blue);
+    pointer-events: none;
+    /* Mouse ile sayıya değil, altındaki butona tıklanabilsin */
+    animation: badge-pulse 2s infinite;
+    z-index: 10;
+}
+
+
 /*  media query for mobile */
 @media (max-width: 768px) {
 
@@ -301,4 +350,5 @@
     .highlight {
         color: var(--neon-yellow);
     }
+
 }
