@@ -125,12 +125,12 @@ const Header = () => {
 
                 <div className="icon-group">
                     {/* SEPET İKONU VE BADGE */}
-                    <div className="cart-icon-wrapper">
-                        <button className="icon-btn"><MdOutlineShoppingCart /></button>
+                    <Link to="/cart" className="cart-icon-wrapper icon-btn">
+                        <MdOutlineShoppingCart />
                         {totalItems > 0 && (
                             <span className="cart-badge">{totalItems}</span>
                         )}
-                    </div>
+                    </Link>
 
                     <button className="icon-btn"><IoMdHeart /></button>
                     <button className="icon-btn desktop-only"><MdPerson /></button>

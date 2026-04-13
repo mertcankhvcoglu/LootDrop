@@ -6,6 +6,9 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Shop from './pages/Shop.jsx'
 import ProductDetailPage from './pages/ProductDetailPage.jsx'
+// YENİ: Sepet sayfasını içeri alıyoruz (Birazdan pages klasöründe oluşturacağız)
+import CartPage from './pages/CartPage.jsx'
+
 // context provider'ı içeri alıyoruz Bean container'ın giriş kapısı
 import { CartProvider } from './context/CartContext.jsx'
 
@@ -27,6 +30,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Shop />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
+          {/* YENİ: Sepet Sayfası Rotası */}
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </div>
 

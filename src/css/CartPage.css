@@ -1,0 +1,198 @@
+.cart-page-wrapper {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--white-main);
+}
+
+.page-title {
+    font-family: 'Tektur', sans-serif;
+    letter-spacing: 2px;
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+}
+
+.cart-content {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+    align-items: start;
+}
+
+/* Ürün Satırları */
+.cart-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cart-item-row {
+    background: var(--card-bg);
+    border: 1px solid var(--light-blue);
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    gap: 20px;
+    transition: 0.3s;
+}
+
+.cart-item-row:hover {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+}
+
+.cart-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #333;
+}
+
+.item-main-info {
+    flex: 1;
+}
+
+.item-name {
+    font-size: 1rem;
+    color: var(--white-main);
+}
+
+.item-category {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+/* Adet Kontrolü */
+.qty-control-group {
+    display: flex;
+    align-items: center;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+.qty-action {
+    background: transparent;
+    border: none;
+    color: var(--neon-blue);
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.qty-action:hover {
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.qty-number {
+    padding: 0 15px;
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Fiyat ve Silme */
+.item-price-calc {
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+.price-label {
+    font-size: 0.6rem;
+    color: #555;
+}
+
+.price-value {
+    color: var(--neon-yellow);
+    font-weight: bold;
+    font-family: 'Tektur';
+}
+
+.remove-item-btn {
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.remove-item-btn:hover {
+    color: #ff0000;
+    transform: scale(1.1);
+}
+
+/* Özet Kartı */
+.order-summary-card {
+    background: var(--card-bg);
+    border: 2px solid var(--neon-blue);
+    padding: 25px;
+    position: sticky;
+    top: 100px;
+}
+
+.summary-details {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.total-line {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.neon-total {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+.checkout-protocol-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--neon-yellow);
+    color: #000;
+    border: none;
+    font-weight: 800;
+    font-family: 'Space Grotesk';
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.checkout-protocol-btn:hover {
+    background: #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.empty-cart-container {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.back-to-shop {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    color: var(--neon-blue);
+    text-decoration: none;
+    border: 1px solid var(--neon-blue);
+    padding: 10px 20px;
+}

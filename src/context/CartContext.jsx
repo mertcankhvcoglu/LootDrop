@@ -38,6 +38,31 @@ const cartReducer = (state, action) => {
             return { ...state, cartItems: updatedItems };
         }
 
+        // --- YENİ AKSİYON: MİKTAR AZALTMA ---
+        case 'DECREASE_QUANTITY': {
+            const existingItemIndex = state.cartItems.findIndex(
+                item => item.id === action.payload
+            );
+
+            const existingItem = state.cartItems[existingItemIndex];
+            let updatedItems;
+
+            if (existingItem.quantity === 1) {
+                // Eğer son 1 tane kaldıysa ve azaltılıyorsa, ürünü listeden tamamen çıkar
+                updatedItems = state.cartItems.filter(item => item.id !== action.payload);
+            } else {
+                // Değilse, adedi 1 düşürerek kopyasını oluştur
+                const updatedItem = {
+                    ...existingItem,
+                    quantity: existingItem.quantity - 1
+                };
+                updatedItems = [...state.cartItems];
+                updatedItems[existingItemIndex] = updatedItem;
+            }
+
+            return { ...state, cartItems: updatedItems };
+        }
+
         case 'REMOVE_FROM_CART':
             return {
                 ...state,
